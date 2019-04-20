@@ -1,3 +1,8 @@
+//credit for shrimp img: https://commons.wikimedia.org/wiki/File:NCI_steamed_shrimp.jpg
+
+//steamed shrimp http://visualsonline.cancer.gov/details.cfm?imageid=2676 Source: National Cancer Institute Author: Renee Comet (photographer) AV Number: AV-9400-4228 Date Created: 1994 {{PD-USGov}}
+
+
 let cw = window.innerWidth;
 let ch = window.innerHeight;
 
