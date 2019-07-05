@@ -170,7 +170,7 @@ function preload(){
 function poly_draw(cur_time)
 {
     
-    for(let i=0; i < polys.length; i++)
+    for(let i=0; i < num_poly; i++)
     {
 	let [cur_x, cur_y, cur_dim] = calc_coords(i, cur_time);
 	polys[i].draw(cur_time);
