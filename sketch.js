@@ -307,3 +307,7 @@ function coin_flip()
     if(cur >= 50) return 1;
     else return -1;
 }
+
+window.onerror = function(error) {
+    alert(error);
+};
