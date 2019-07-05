@@ -32,8 +32,8 @@ let shrimp_swell = 0;
 
 let shrimp_bounds = [0.65, 0.75];
 
-var polys = [];
-var s_dur = [];
+let polys = [];
+let s_dur = [];
 
 let cstr = ["SHRIMP", "WONTONNOODLES", "SHUMAI",
 	    "KIMCHI", "EBITEMPURA", "SHRIMPTACOS", "MEIFUN",
@@ -163,7 +163,7 @@ function setup() {
 }
 
 function preload(){
-    shrimp = loadImage('assets/shrimp.png');
+    shrimp = loadImage("assets/shrimp.png");
     }
 
 
@@ -204,11 +204,17 @@ function draw() {
 	    let cur_slice = slice_idx[i];
 	    let cur_prop = slice_prop[i];
 	    let cur_dir = slice_dir[i];
+	    /*
 	    if(horiz == true)
 		shift_line(bg_gfx, 0, cur_slice , cur_prop*cur_dir*cur_swell, width, height, slice_width);
 	    else
 		shift_line(bg_gfx, 1, cur_slice , cur_prop*cur_dir*cur_swell, width, height, slice_width);
+		*/
 
+	      if(horiz == true)
+		draw_strip(bg_gfx, 0, 0, 0, cur_slice , cur_prop*cur_dir*cur_swell, slice_width);
+	    else
+		draw_strip(bg_gfx, 1, 0, 0, cur_slice , cur_prop*cur_dir*cur_swell, slice_width);
 	    
 
 	};
@@ -219,6 +225,8 @@ function draw() {
 
     
 }
+
+//function draw_strip(img, horiz_vert, dest_x, dest_y, cur_idx, shift_amt, strip_size)
 
 // neg shift = shift left.
 function shift_line(img = null, horiz_vert = 0, idx = 0 , shift_amt = 0, cur_w = width, cur_h = height, chunk_size = 1)
@@ -299,6 +307,85 @@ function shift_line(img = null, horiz_vert = 0, idx = 0 , shift_amt = 0, cur_w =
 	    };
 							     
 	};
+}
+
+function draw_strip(img, horiz_vert, dest_x, dest_y, cur_idx, shift_amt, strip_size)
+{
+    let s_x, s_y, d_x, d_y, c_w, c_h;
+    // if we are starting within the bounds
+    let can_draw = false, can_copy = false;
+    let real_idx = cur_idx * strip_size;
+    //horizontal
+    if(horiz_vert == 0)
+    {
+	// strip dest idx we want
+	let copy_x = 0;
+	let copy_y = real_idx;
+	let want_idx = real_idx + dest_y; //draw_y
+	let want_shift = shift_amt + dest_x; //draw_x
+	let want_h = strip_size;
+	let want_w = img.width;
+	if(want_shift + want_w >= width) want_w = width - want_shift;
+	else if (want_shift < 0)
+	{
+	    copy_x = -1.0* want_shift;
+	    want_w = want_w + want_shift;
+	};
+	if(want_idx  + want_h > height) want_h = height - want_idx;
+	else if(want_idx < 0)
+	{
+	    copy_y = -1.0 * want_idx;
+	    want_h = strip_size + want_idx;
+	}
+	can_draw = want_w > 0 && want_shift < width && want_idx < height;
+	can_copy = real_idx < img.height && want_h > 0 && want_w > 0;
+
+	d_x = want_shift;
+	d_y = want_idx;
+	c_w = want_w;
+	c_h = want_h;
+	s_y = real_idx;
+	s_x = copy_x;
+	s_y = copy_y;
+    }
+    else
+    {
+	// vertical
+	let copy_x = real_idx;
+	let copy_y = 0;
+	let want_idx = real_idx + dest_x; //draw_x
+	let want_shift = shift_amt + dest_y; //draw_y
+	let want_h = img.height;
+	let want_w = strip_size;
+	if(want_shift + want_h >= height) want_h = height - want_shift;
+	else if (want_shift < 0){
+	    copy_y = -1.0* want_shift;
+	    want_h = want_h + want_shift;
+	};
+	if(want_idx  + want_w > height) want_w = width - want_idx;
+	else if(want_idx < 0)
+	{
+	    copy_x = -1.0 * want_idx;
+	    want_w = strip_size + want_idx;
+	};
+	can_draw = want_w > 0 && want_shift < height && want_idx < width;
+	can_copy = real_idx < img.width && want_h > 0 && want_w > 0;
+
+	d_x = want_idx;
+	d_y = want_shift;
+	c_w = want_w;
+	c_h = want_h;
+	s_x = copy_x;
+	s_y = copy_y;
+	
+
+	
+    };
+
+    if(can_draw && can_copy)
+    {
+	copy(img, s_x, s_y, c_w, c_h, d_x, d_y, c_w, c_h);
+    }
 }
 
 function coin_flip()
