@@ -130,6 +130,7 @@ function  calc_coords(idx, cur_time)
 function setup() {
   // put setup code here
     createCanvas(cw,ch);
+    frameRate(24);
     bg_gfx = createGraphics(cw,ch);
     old_bg = new_bg_color();
     new_bg = new_bg_color();
