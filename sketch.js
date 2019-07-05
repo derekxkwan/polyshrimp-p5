@@ -153,7 +153,7 @@ function setup() {
 	    let c_dur = random(600) + 150;
 	    //let c_dur = 125;
 	    let c_cx = (i % nx) * dim;
-	    let c_cy = Math.floor(i/nx) * dim;
+	    let c_cy = Math.round(i/nx) * dim;
 	    let c_sdur = Math.round(1000 + random(2500));
 	    let cur_poly = new PolyVisSq(cur_str, c_c1, c_c2, c_dur, c_cx, c_cy, dim);
 	    polys.push(cur_poly);
