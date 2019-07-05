@@ -195,8 +195,8 @@ function draw() {
   // put drawing code here
     let cur_time = millis();
 
-    //clear();
-    //disp_bg();
+    clear();
+    disp_bg();
     bg_gfx.background(255);
     disp_img(cur_time);
     disp_bg(cur_time);
