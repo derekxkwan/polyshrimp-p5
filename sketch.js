@@ -135,7 +135,13 @@ function  calc_coords(idx, cur_time)
 
 function setup() {
   // put setup code here
+    let is_mobile = mobile_or_tablet();
     createCanvas(cw,ch);
+
+
+     if(is_mobile == true){
+	num_slices = 30;
+     };
     frameRate(24);
     bg_gfx = createGraphics(cw,ch);
     old_bg = new_bg_color();
@@ -188,13 +194,9 @@ function poly_draw(cur_time)
 function draw() {
   // put drawing code here
     let cur_time = millis();
+
     //clear();
     //disp_bg();
-     let is_mobile = mobile_or_tablet();
-
-     if(is_mobile == true){
-	num_slices = 30;
-     };
     bg_gfx.background(255);
     disp_img(cur_time);
     disp_bg(cur_time);
