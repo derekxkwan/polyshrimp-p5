@@ -144,8 +144,8 @@ function setup() {
     bg_start = millis();
     shrimp_swell = Math.floor(7500 + random(5000));
 
-    if(horiz == true) slice_width = Math.round(height/num_slices);
-    else slice_width = Math.round(width/num_slices);
+    if(horiz == true) slice_width = Math.round(ch/num_slices);
+    else slice_width = Math.round(cw/num_slices);
 
     slice_idx = Array.from({length: num_slices}, (x, i) => i*slice_width);
     slice_instantiate();
@@ -218,9 +218,9 @@ function draw() {
 		*/
 
 	      if(horiz == true)
-		draw_strip(bg_gfx, 0, 0, 0, cur_slice , cur_prop*cur_dir*cur_swell, slice_width);
+		draw_strip(bg_gfx, 0, 0, 0, i, cur_prop*cur_dir*cur_swell, slice_width);
 	    else
-		draw_strip(bg_gfx, 1, 0, 0, cur_slice , cur_prop*cur_dir*cur_swell, slice_width);
+		draw_strip(bg_gfx, 1, 0, 0, i, cur_prop*cur_dir*cur_swell, slice_width);
 	    
 
 	};
