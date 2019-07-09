@@ -188,8 +188,8 @@ function poly_draw(cur_time)
 function draw() {
   // put drawing code here
     let cur_time = millis();
-    //clear();
-    //disp_bg();
+    clear();
+    disp_bg();
     bg_gfx.background(255);
     disp_img(cur_time);
     disp_bg(cur_time);
@@ -232,88 +232,6 @@ function draw() {
     
 }
 
-//function draw_strip(img, horiz_vert, dest_x, dest_y, cur_idx, shift_amt, strip_size)
-
-// neg shift = shift left.
-function shift_line(img = null, horiz_vert = 0, idx = 0 , shift_amt = 0, cur_w = width, cur_h = height, chunk_size = 1)
-{
-
-    //horizontal
-    if(horiz_vert == 0)
-    {
-	let cur_idx = idx < 0 ? 0 : (idx >= cur_h ? cur_h - 1 : idx);
-	let cur_chunk = cur_idx + chunk_size >= cur_h ? cur_h - cur_idx : chunk_size;
-	let cur_shift = shift_amt >= cur_w ? cur_w - 1 : (shift_amt <= (-1 * cur_w) ? (-1 * cur_w) + 1 : shift_amt);
-	if(cur_shift > 0)
-	{
-	    let copy_width = cur_w - cur_shift;
-	    if(img)
-	    {
-		copy(img, 0, cur_idx, copy_width, cur_chunk, cur_shift, cur_idx, copy_width, cur_chunk);
-		copy(img, 0, cur_idx, 1, cur_chunk, 0, cur_idx, cur_shift, cur_chunk);
-
-	    }
-	    else
-	    {
-		copy(0, cur_idx, copy_width, cur_chunk, cur_shift, cur_idx, copy_width, cur_chunk);
-		copy(0, cur_idx, 1, cur_chunk, 0, cur_idx, cur_shift, cur_chunk);
-	    }
-
-	}
-	else if (cur_shift < 0)
-	{
-	    let copy_width = cur_w + cur_shift;
-	    if(img)
-	    {
-		copy(img, cur_shift, cur_idx, copy_width, cur_chunk, 0, cur_idx, copy_width, cur_chunk);
-		copy(img, cur_w - 1, cur_idx, 1, cur_chunk, copy_width, cur_chunk, -1 * cur_shift, cur_chunk);
-	    }
-	    else
-	    {
-		copy(cur_shift, cur_idx, copy_width, cur_chunk, 0, cur_idx, copy_width, cur_chunk);
-		copy(cur_w - 1, cur_idx, 1, cur_chunk, copy_width, cur_chunk, -1 * cur_shift, cur_chunk);
-	    };
-	};
-	
-    }
-    else
-	{
-      //vertical
-	    let cur_idx =  idx < 0 ? 0 : (idx >= cur_w ? cur_w - 1  : idx);
-	    let cur_chunk = idx + chunk_size >= cur_w ? cur_w  - idx : chunk_size;
-	    let cur_shift = shift_amt >= cur_h ? cur_h - 1 : (shift_amt <= (-1 * cur_h) ? (-1 * cur_h) + 1 : shift_amt);
-	    if(cur_shift > 0)
-	    {
-		let copy_height = cur_h - cur_shift;
-		if(img)
-		{
-		    copy(img, cur_idx, 0, cur_chunk, copy_height, cur_idx, cur_shift, cur_chunk, copy_height);
-		    copy(img, cur_idx, 0, cur_chunk, 1, cur_idx, 0, cur_chunk, cur_shift+1);
-		}
-		else
-		{
-		    copy(cur_idx, 0, cur_chunk, copy_height, cur_idx, cur_shift, cur_chunk, copy_height);
-		    copy(cur_idx, 0, cur_chunk, 1, cur_idx, 0, cur_chunk, cur_shift+1);
-		}
-	    }
-	    else if (cur_shift < 0)
-	    {
-
-		let copy_height = cur_h + cur_shift;
-		if(img)
-		{
-		    copy(img, cur_idx, -1*cur_shift, cur_chunk, copy_height, cur_idx, 0, cur_chunk, copy_height);
-		    copy(img, cur_idx, cur_h - 1, cur_chunk, 1, cur_idx, copy_height, cur_chunk, -1 * cur_shift);
-		}
-		else
-		{
-		    copy(cur_idx, -1*cur_shift, cur_chunk, copy_height, cur_idx, 0, cur_chunk, copy_height);
-		    copy(cur_idx, cur_h - 1, cur_chunk, 1, cur_idx, copy_height, cur_chunk, -1 * cur_shift);
-		}
-	    };
-							     
-	};
-}
 
 function draw_strip(img, horiz_vert, dest_x, dest_y, cur_idx, shift_amt, strip_size)
 {
@@ -390,7 +308,7 @@ function draw_strip(img, horiz_vert, dest_x, dest_y, cur_idx, shift_amt, strip_s
 
     if(can_draw && can_copy)
     {
-	copy(img, s_x, s_y, c_w, c_h, d_x, d_y, c_w, c_h);
+	bg_gfx.copy(img, s_x, s_y, c_w, c_h, d_x, d_y, c_w, c_h);
     }
 }
 
