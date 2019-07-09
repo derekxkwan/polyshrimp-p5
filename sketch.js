@@ -1,6 +1,7 @@
 let cw = window.innerWidth;
 let ch = window.innerHeight;
 
+let shrimp_dim = [848,720];
 let swell_state = 0;
 let swell_inc = 0.5;
 let swell_dir = 1.0;
@@ -44,6 +45,11 @@ let slice_dir;
 let slice_max = 90;
 let slice_width;
 let horiz = false;
+
+function preload(){
+    shrimp = loadImage("assets/shrimp.png");
+    }
+
 
 function mobile_or_tablet() {
   var check = false;
@@ -144,8 +150,8 @@ function setup() {
     bg_start = millis();
     shrimp_swell = Math.floor(7500 + random(5000));
 
-    if(horiz == true) slice_width = Math.round(ch/num_slices);
-    else slice_width = Math.round(cw/num_slices);
+    if(horiz == true) slice_width = Math.round(shrimp_dim[1]/num_slices);
+    else slice_width = Math.round(shrimp_dim[0]/num_slices);
 
     slice_idx = Array.from({length: num_slices}, (x, i) => i*slice_width);
     slice_instantiate();
@@ -168,9 +174,6 @@ function setup() {
 
 }
 
-function preload(){
-    shrimp = loadImage("assets/shrimp.png");
-    }
 
 
 function poly_draw(cur_time)
@@ -218,9 +221,9 @@ function draw() {
 		*/
 
 	      if(horiz == true)
-		draw_strip(bg_gfx, 0, 0, 0, i, cur_prop*cur_dir*cur_swell, slice_width);
+		draw_strip(shrimp, 0, 0, 0, i, cur_prop*cur_dir*cur_swell, slice_width);
 	    else
-		draw_strip(bg_gfx, 1, 0, 0, i, cur_prop*cur_dir*cur_swell, slice_width);
+		draw_strip(shrimp, 1, 0, 0, i, cur_prop*cur_dir*cur_swell, slice_width);
 	    
 
 	};
