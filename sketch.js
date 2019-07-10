@@ -26,10 +26,13 @@ let bg_weights = [[0.0,1.0], [0.2, 0.4], [1.0, 1.0]];
 var shrimp;
 let shrimp_swell = 0;
 
-let shrimp_bounds = [0.65, 0.75];
+//let shrimp_bounds = [0.65, 0.75];
 
+let shrimp_bounds = [0,0];
+let shrimp_start = [0,0];
 let polys = [];
 let s_dur = [];
+let shrimp_gfx;
 
 let cstr = ["SHRIMP", "WONTONNOODLES", "SHUMAI",
 	    "KIMCHI", "EBITEMPURA", "SHRIMPTACOS", "MEIFUN",
@@ -47,7 +50,19 @@ let slice_width;
 let horiz = false;
 
 function preload(){
+    let cur_w = shrimp_dim[0], cur_h = shrimp_dim[1];
     shrimp = loadImage("assets/shrimp.png");
+    let resize_w = shrimp_dim[0]/cw;
+    let resize_h = shrimp_dim[1]/ch;
+    let resize_q = Math.max(resize_w, resize_h);
+    if(resize_q > 1) {
+	cur_w *= 1/resize_q;
+	cur_h *= 1/resize_q;
+    };
+    shrimp_bounds =  [cur_w, cur_h];
+    let cur_x = (cw - cur_w)/2.0;
+    let cur_y = (ch - cur_h)/2.0;
+    shrimp_start = [cur_x, cur_y];
     }
 
 
@@ -77,7 +92,7 @@ function new_bg_color()
 {
     return Array.from({length: 3}, (x, i) => Math.floor(random(bg_weights[i][0]*256, bg_weights[i][1]*256)));
 }
-
+/*
 function disp_img(cur_time)
 {
     let modtime = cur_time % shrimp_swell;
@@ -87,7 +102,7 @@ function disp_img(cur_time)
     let c_cy = (ch-cur_dim)/2.0;
     bg_gfx.image(shrimp, c_cx, c_cy, cur_dim, cur_dim);
 }
-
+*/
 function disp_bg(cur_time)
 {
     let cur_pos = cur_time - bg_start;
@@ -154,8 +169,10 @@ function setup() {
     else slice_width = Math.round(shrimp_dim[0]/num_slices);
 
     slice_idx = Array.from({length: num_slices}, (x, i) => i*slice_width);
+    
     slice_instantiate();
-
+    shrimp_gfx = createGraphics(shrimp_bounds[0], shrimp_bounds[1]);
+    shrimp_gfx.image(shrimp, 0,0, shrimp_bounds[0], shrimp_bounds[1]);
 
     for(let i = 0; i < num_poly; i++)
 	{
@@ -221,9 +238,9 @@ function draw() {
 		*/
 
 	      if(horiz == true)
-		draw_strip(shrimp, 0, 0, 0, i, cur_prop*cur_dir*cur_swell, slice_width);
+		draw_strip(shrimp_gfx, 0, shrimp_start[0], shrimp_start[1], i, cur_prop*cur_dir*cur_swell, slice_width);
 	    else
-		draw_strip(shrimp, 1, 0, 0, i, cur_prop*cur_dir*cur_swell, slice_width);
+		draw_strip(shrimp_gfx, 1, shrimp_start[0], shrimp_start[1], i, cur_prop*cur_dir*cur_swell, slice_width);
 	    
 
 	};
