@@ -59,10 +59,11 @@ function preload(){
 	cur_w *= 1/resize_q;
 	cur_h *= 1/resize_q;
     };
-    shrimp_bounds =  [cur_w, cur_h];
-    let cur_x = (cw - cur_w)/2.0;
-    let cur_y = (ch - cur_h)/2.0;
+    shrimp_bounds =  [Math.round(cur_w), Math.round(cur_h)];
+    let cur_x = (cw - shrimp_bounds[0])/2.0;
+    let cur_y = (ch - shrimp_bounds[1])/2.0;
     shrimp_start = [cur_x, cur_y];
+    console.log (shrimp_bounds, shrimp_start, cw, ch);
     }
 
 
@@ -107,7 +108,7 @@ function disp_bg(cur_time)
 {
     let cur_pos = cur_time - bg_start;
 
-    bg_gfx.colorMode(HSB, 255);
+    colorMode(HSB, 255);
     if(cur_pos >= bg_ramp)
 	{
 	    old_bg = new_bg;
@@ -128,9 +129,9 @@ function disp_bg(cur_time)
 
     let ret_color = color(ret_bg[0], ret_bg[1], ret_bg[2], 150);
 
-    bg_gfx.fill(ret_color);
-    bg_gfx.noStroke();
-    bg_gfx.rect(0,0,cw, ch)
+    fill(ret_color);
+    noStroke();
+    rect(0,0,cw, ch)
 
     
 }
@@ -210,10 +211,10 @@ function draw() {
     let cur_time = millis();
     clear();
     disp_bg();
-    bg_gfx.background(255);
-    disp_img(cur_time);
-    disp_bg(cur_time);
-    //colorMode(RGB, 255);
+    //bg_gfx.background(255);
+    //disp_img(cur_time);
+    colorMode(RGB, 255);
+    
 
 
     let cur_swell = swell_state;
@@ -225,6 +226,7 @@ function draw() {
 	slice_instantiate();
 	swell_inc = random(swell_mininc, swell_maxinc);
     };
+    
     for(let i=0; i < num_slices; i++)
 	{
 	    let cur_slice = slice_idx[i];
@@ -238,14 +240,15 @@ function draw() {
 		*/
 
 	      if(horiz == true)
-		draw_strip(shrimp_gfx, 0, shrimp_start[0], shrimp_start[1], i, cur_prop*cur_dir*cur_swell, slice_width);
+		  draw_strip(shrimp_gfx, 0, shrimp_start[0], shrimp_start[1], i, cur_prop*cur_dir*cur_swell, slice_width);
 	    else
 		draw_strip(shrimp_gfx, 1, shrimp_start[0], shrimp_start[1], i, cur_prop*cur_dir*cur_swell, slice_width);
 	    
 
 	};
 
-
+    disp_bg(cur_time);
+    //image(bg_gfx);
     poly_draw(cur_time);
 
 
@@ -328,7 +331,7 @@ function draw_strip(img, horiz_vert, dest_x, dest_y, cur_idx, shift_amt, strip_s
 
     if(can_draw && can_copy)
     {
-	bg_gfx.copy(img, s_x, s_y, c_w, c_h, d_x, d_y, c_w, c_h);
+	copy(img, s_x, s_y, c_w, c_h, d_x, d_y, c_w, c_h);
     }
 }
 
