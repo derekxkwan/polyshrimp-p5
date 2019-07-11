@@ -42,7 +42,7 @@ let cstr = ["SHRIMP", "WONTONNOODLES", "SHUMAI",
 
 
 let slice_idx;
-let num_slices = 200;
+let num_slices = 50;
 let slice_prop;
 let slice_dir;
 let slice_max = 90;
